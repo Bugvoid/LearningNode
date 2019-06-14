@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/spoilers/:id", controller.buscarUm);
 
-router.get("/spoilers/:id", controller.buscarTodos);
+router.get("/spoilers", controller.buscarTodos);
 
 router.post("/spoilers", controller.criar);
 
