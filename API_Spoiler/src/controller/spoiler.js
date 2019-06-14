@@ -6,12 +6,12 @@ exports.buscarUm = (request, response, next) => {
   Spoiler.findById(id)
     .then(spoiler => {
       if (spoiler) {
-        response.send(spoiler);
+        response.status(200).send(spoiler);
       } else {
         response.status(404).send();
       }
     })
-    .catch(erro => next(erro));
+    .catch(error => next(error));
 };
 
 exports.buscarTodos = (request, response, next) => {
