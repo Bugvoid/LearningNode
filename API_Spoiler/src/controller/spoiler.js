@@ -24,7 +24,7 @@ exports.buscarTodos = (request, response, next) => {
 
   const ITENS_POR_PAGINA = 10;
 
-  limite = limite > ITENS_POR_PAGINA || limite < 0 ? ITENS_POR_PAGINA : limite;
+  limite = limite > ITENS_POR_PAGINA || limite <= 0 ? ITENS_POR_PAGINA : limite;
   pagina = pagina <= 0 ? 0 : pagina * limite;
 
   Spoiler.findAll({ limite: limite, offset: pagina })
