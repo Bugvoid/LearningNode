@@ -1,5 +1,4 @@
 const Spoiler = require("../model/spoiler");
-const status = require("http-status");
 
 exports.buscarUm = (request, response, next) => {
   const id = request.params.id;
@@ -7,9 +6,9 @@ exports.buscarUm = (request, response, next) => {
   Spoiler.findById(id)
     .then(spoiler => {
       if (spoiler) {
-        response.status(status.OK).send(spoiler);
+        response.status(200).send(spoiler);
       } else {
-        response.status(status.NOT_FOUND).send();
+        response.status(404).send();
       }
     })
     .catch(error => next(error));
@@ -20,7 +19,7 @@ exports.buscarTodos = (request, response, next) => {
   let pagina = parseInt(request.query.pagina || 0);
 
   if (!Number.isInteger(limite) || !Number.isInteger(pagina)) {
-    response.status(status.BAD_REQUEST).send();
+    response.status(400).send();
   }
 
   const ITENS_POR_PAGINA = 10;
@@ -46,7 +45,7 @@ exports.criar = (request, response, next) => {
     descricao: descricao
   })
     .then(() => {
-      response.status(status.CREATED).send();
+      response.status(201).send();
     })
     .catch(error => next(error));
 };
@@ -70,11 +69,11 @@ exports.atualizar = (request, response, next) => {
           { where: { id: id } }
         )
           .then(() => {
-            response.status(status.OK).send();
+            response.status(200).send();
           })
           .catch(error => next(error));
       } else {
-        response.status(status.NOT_FOUND).send();
+        response.status(404).send();
       }
     })
     .catch(error => next(error));
@@ -90,11 +89,11 @@ exports.excluir = (request, response, next) => {
           where: { id: id }
         })
           .then(() => {
-            response.status(status.OK).send();
+            response.status(200).send();
           })
           .catch(error => next(error));
       } else {
-        response.status(status.NOT_FOUND).send();
+        response.status(404).send();
       }
     })
     .catch(error => next(error));
