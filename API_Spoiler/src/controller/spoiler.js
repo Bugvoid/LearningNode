@@ -1,0 +1,102 @@
+const Spoiler = require("../model/spoiler");
+
+exports.buscarUm = (request, response, next) => {
+  const id = request.params.id;
+
+  Spoiler.findById(id)
+    .then(spoiler => {
+      if (spoiler) {
+        response.send(spoiler);
+      } else {
+        response.status(404).send();
+      }
+    })
+    .catch(erro => next(erro));
+};
+
+exports.buscarTodos = (request, response, next) => {
+  let limite = parseInt(request.query.limite || 0);
+  let pagina = parseInt(request.query.pagina || 0);
+
+  if (!Number.isInteger(limite) || !Number.isInteger(pagina)) {
+    response.status(400).send();
+  }
+
+  const ITENS_POR_PAGINA = 10;
+
+  limite = limite > ITENS_POR_PAGINA || limite < 0 ? ITENS_POR_PAGINA : limite;
+  pagina = pagina <= 0 ? 0 : pagina * limite;
+
+  Spoiler.findAll({ limite: limite, offset: pagina })
+    .then(spoilers => {
+      response.send(spoilers);
+    })
+    .catch(error => next(error));
+};
+
+exports.criar = (request, response, next) => {
+  const titulo = request.body.titulo;
+  const espoliador = request.body.espoliador;
+  const descrição = request.body.descrição;
+
+  Spoiler.create({
+    titulo: titulo,
+    espoliador: espoliador,
+    descrição: descrição
+  })
+    .then(() => {
+      response.status(200).send();
+    })
+    .catch(error => next(error));
+};
+
+exports.atualizar = (request, response, next) => {
+  const id = request.params.id;
+
+  const titulo = request.body.titulo;
+  const espoliador = request.body.espoliador;
+  const descrição = request.body.descrição;
+
+  Spoiler.findById(id)
+    .then(spoiler => {
+      if (spoiler) {
+        Spoiler.update(
+          {
+            titulo: titulo,
+            espoliador: espoliador,
+            descrição: descrição
+          },
+          { where: { id: id } }
+        )
+          .then(() => {
+            response.send();
+          })
+          .catch(error => next(error));
+      } else {
+        response.status(404).send();
+      }
+    })
+    .catch(error => next(error));
+};
+
+exports.deletar = (request, response, next) => {
+  const id = request.params.id;
+
+  Spoiler.findById(id)
+    .then(spoiler => {
+      if (spoiler) {
+        Spoiler.destroy({
+          where: { id: id }
+        })
+          .then(() => {
+            response.send();
+          })
+          .catch(error => next(error));
+      } else {
+        response.status(404).send();
+      }
+    })
+    .catch(error => next(error));
+};
+
+
