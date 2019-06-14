@@ -10,7 +10,7 @@ const Spoiler = sequelize.define("spoiler", {
   },
   titulo: {
     allowNull: false,
-    type: Sequelize.STRING(225),
+    type: Sequelize.STRING(255),
     validate: {
       len: [2, 255]
     }
@@ -24,7 +24,7 @@ const Spoiler = sequelize.define("spoiler", {
   },
   descricao: {
     allowNull: false,
-    type: Sequelize.STRING(225),
+    type: Sequelize.STRING(255),
     validate: {
       len: [2, 255]
     }
