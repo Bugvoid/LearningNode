@@ -8,7 +8,7 @@ exports.buscarUm = (request, response, next) => {
       if (spoiler) {
         response.status(200).send(spoiler);
       } else {
-        response.status(404).send();
+        response.status(400).send();
       }
     })
     .catch(error => next(error));
