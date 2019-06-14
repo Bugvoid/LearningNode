@@ -37,12 +37,12 @@ exports.buscarTodos = (request, response, next) => {
 exports.criar = (request, response, next) => {
   const titulo = request.body.titulo;
   const espoliador = request.body.espoliador;
-  const descrição = request.body.descrição;
+  const descricao = request.body.descricao;
 
   Spoiler.create({
     titulo: titulo,
     espoliador: espoliador,
-    descrição: descrição
+    descricao: descricao
   })
     .then(() => {
       response.status(200).send();
@@ -55,7 +55,7 @@ exports.atualizar = (request, response, next) => {
 
   const titulo = request.body.titulo;
   const espoliador = request.body.espoliador;
-  const descrição = request.body.descrição;
+  const descricao = request.body.descricao;
 
   Spoiler.findById(id)
     .then(spoiler => {
@@ -64,7 +64,7 @@ exports.atualizar = (request, response, next) => {
           {
             titulo: titulo,
             espoliador: espoliador,
-            descrição: descrição
+            descricao: descricao
           },
           { where: { id: id } }
         )
@@ -98,5 +98,3 @@ exports.deletar = (request, response, next) => {
     })
     .catch(error => next(error));
 };
-
-
