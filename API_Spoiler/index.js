@@ -1,8 +1,7 @@
 const http = require("http");
 const express = require("express");
-const spoilersRoute = require("../API_Spoiler/src/routes/spoiler");
-
-const sequelize = require("../API_Spoiler/src/database/database");
+const spoilersRoute = require("./src/routes/spoiler");
+const sequelize = require("./src/database/database");
 
 const app = express();
 
