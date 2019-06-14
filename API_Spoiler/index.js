@@ -2,11 +2,9 @@ const http = require("http");
 const express = require("express");
 const spoilersRoute = require("../API_Spoiler/src/routes/spoiler");
 
-const app = express();
-const hostname = "127.0.0.1";
-const port = 3000;
+const sequelize = require("../API_Spoiler/src/database/database");
 
-app.set("port", port);
+const app = express();
 
 app.use(express.json());
 
@@ -20,8 +18,11 @@ app.use((error, request, response, next) => {
   response.status(500).json({ error });
 });
 
-const server = http.createServer(app);
+sequelize.sync({ force: true }).then(() => {
+  const port = process.env.PORT || 3000;
 
-server.listen(port, hostname, () => {
-  console.log("Servidor em execução");
+  app.set("port", port);
+
+  const server = http.createServer(app);
+  server.listen(port);
 });
