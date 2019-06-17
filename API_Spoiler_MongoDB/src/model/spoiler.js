@@ -1,14 +1,12 @@
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 const spoilerSchema = new Schema({
-  titulo:{
-    type:String,
-    required:true
+  titulo: {
+    type: String,
+    required: true
   },
-  
+
   espoliador: {
     type: String,
     required: true
@@ -23,4 +21,4 @@ const spoilerSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("post", postSchema);
+module.exports = mongoose.model("spoiler", spoilerSchema);

@@ -2,11 +2,12 @@ const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
 const spoilersRoute = require("./routes/spoilers");
+const cors = require("cors");
 const url =
   "mongodb+srv://admin:admin@cluster0-huzkm.mongodb.net/test?retryWrites=true";
 
 const app = express();
-
+app.use(cors);
 app.use(express.json());
 
 app.use("/api", spoilersRoute);
@@ -23,5 +24,6 @@ mongoose
   .connect(url, { useNewUrlParser: true })
   .then(() => {
     app.listen(3000);
+    console.log("database connected!");
   })
   .catch(err => console.log(err));
