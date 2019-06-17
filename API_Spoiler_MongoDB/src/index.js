@@ -2,7 +2,6 @@ const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
 const spoilersRoute = require("./routes/spoilers");
-const cors = require("cors");
 const url =
   "mongodb+srv://admin:admin@cluster0-huzkm.mongodb.net/test?retryWrites=true";
 
