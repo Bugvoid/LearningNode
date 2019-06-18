@@ -2,13 +2,13 @@ const http = require("http");
 const express = require("express");
 const mongoose = require("mongoose");
 const spoilersRoute = require("./routes/spoilers");
+const cors = require("cors");
 const url =
   "mongodb+srv://admin:admin@cluster0-huzkm.mongodb.net/test?retryWrites=true";
 
 const app = express();
-app.use(cors);
 app.use(express.json());
-
+app.use(cors());
 app.use("/api", spoilersRoute);
 
 app.use((request, response, next) => {
