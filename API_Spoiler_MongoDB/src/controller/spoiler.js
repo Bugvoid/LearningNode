@@ -50,7 +50,7 @@ exports.atualizar = (request, response, next) => {
   const espoliador = request.body.espoliador;
   const descricao = request.body.descricao;
 
-  Spoiler.findById(id)
+  Spoiler.findByIdAndUpdate(id)
     .then(result => {
       (result.titulo = titulo),
         (result.espoliador = espoliador),
@@ -67,7 +67,7 @@ exports.atualizar = (request, response, next) => {
 exports.excluir = (request, response, next) => {
   const id = request.params.id;
 
-  Spoiler.findByIdAndRemove(id)
+  Spoiler.findByIdAndDelete(id)
     .then(() => {
       response.send();
     })
