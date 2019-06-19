@@ -47,37 +47,11 @@ exports.criar = (request, response, next) => {
 exports.atualizar = (request, response, next) => {
   const id = request.params.id;
 
-  const titulo = request.body.titulo;
-  const espoliador = request.body.espoliador;
-  const descricao = request.body.descricao;
-
-  Spoiler.replaceOne(
-    { _id: new mongoose.Types.ObjectId(id) },
-    { titulo, espoliador, descricao }
-  )
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      response.status(400).send(err);
-    });
+  Spoiler.findByIdAndUpdate(id, request.body, { new: true }, (err, spoiler) => {
+    if (err) return response.status(500).send(err);
+    return response.send(spoiler);
+  });
 };
-
-// exports.atualizar =  async (request, response, next) => {
-//   try {
-//     const id = request.params.id;
-
-//     const titulo = request.body.titulo;
-//     const descricao = request.body.descricao;
-
-//     var spoiler = await Spoiler.findById(id);    
-//     spoiler.titulo = titulo
-//     spoiler.descricao = descricao
-//     spoiler.save()
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 exports.excluir = (request, response, next) => {
   const id = request.params.id;
