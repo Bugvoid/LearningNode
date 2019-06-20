@@ -47,9 +47,17 @@ exports.criar = (request, response, next) => {
 exports.atualizar = (request, response, next) => {
   const id = request.params.id;
 
-  Spoiler.findByIdAndUpdate(id, request.body, { new: true }, (err, spoiler) => {
-    if (err) return response.status(500).send(err);
-    return response.send(spoiler);
+  Spoiler.findById(id, function(err, spoiler) {
+    if (err) {
+      response.send(err);
+    }
+
+    spoiler.titulo = request.body.titulo;
+    spoiler.descricao = request.body.descricao;
+    spoiler.espoliador = request.body.espoliador;
+    spoiler.save();
+
+    response.send(spoiler);
   });
 };
 
