@@ -6,7 +6,7 @@ const Promise = require("bluebird");
 const express = require('express') 
 const app = express()
 const user = "bugvoid404@hotmail.com"
-const pass = "78vhjklp"
+const pass = ""
 
 //host: "imap-mail.outlook.com" 
 
