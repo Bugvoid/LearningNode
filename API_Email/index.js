@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var fs = require("fs");
 var { Base64Decode } = require("base64-stream");
 var Imap = require("imap");
@@ -6,6 +7,28 @@ var imap = new Imap({
   password: "N8xktiy9",
   host: "outlook.office365.com",
   port: 993,
+=======
+const MailListener = require("mail-listener2");
+const Imap = require('imap');
+const MailParser = require("mailparser").MailParser;
+const nodemailer = require('nodemailer');
+const Promise = require("bluebird");
+const express = require('express') 
+const app = express()
+const user = "bugvoid404@hotmail.com"
+const pass = ""
+
+//host: "imap-mail.outlook.com" 
+
+
+Promise.longStackTraces();
+
+var imapConfig = new Imap({
+  user: user,
+  pass: pass,
+  host: 'outlook.office365.com',
+  porta: 993,
+>>>>>>> b221ebea2e524cec30cb9a2d99a3ba3000d20969
   tls: true,
   authTimeout: 3000,
   tlsOptions: { rejectUnauthorized: false }
@@ -105,4 +128,9 @@ imap.once("end", function() {
   console.log("Connection ended");
 });
 
+<<<<<<< HEAD
 imap.connect();
+=======
+  console.log('Message sent: ' + info.response);
+});*/
+>>>>>>> b221ebea2e524cec30cb9a2d99a3ba3000d20969
