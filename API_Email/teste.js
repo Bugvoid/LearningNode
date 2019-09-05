@@ -1,89 +1,65 @@
-var MailListener = require("mail-listener2");
-const nodemailer = require('nodemailer')
-const user = "bugvoid404@hotmail.com"
-const pass = "78vhjklp"
-const host = "outlook.office365.com"
-
-var mailListener = new MailListener({
-
-  username: user,
-  password: pass,
-  host: host,
-  port: 993, // imap port
-  tls: true,
-  fetchUnreadOnStart: true,
-  tlsOptions: { rejectUnauthorized: false },
-  mailbox: "INBOX",
-  searchFilter: "UNSEEN",
-  markSeen: true
-});
-
-mailListener.on("server:connected", function () {
-  console.log("imapConnected");
-});
-
-mailListener.on("server:disconnected", function () {
-  console.log("imapDisconnected");
-});
-
-        
-mailListener.start(
-    
-
-
-); // start listening
-
-
-// Create the transporter with the required configuration for Outlook
-// change the user and pass !
-var transporter = nodemailer.createTransport({
-  host: "smtp.office365.com", // hostname
-  port: 587,
-  secure:false,
-  auth: {
-    user: user,
-    pass: pass
-  },
-  tls: {
-    rejectUnauthorized: false
+var imaps = require("imap-simple");
+var { Base64Decode } = require("base64-stream");
+var fs = require("fs");
+var config = {
+  imap: {
+    user: "luan.alves@comuniki.me",
+    password: "N8xktiy9",
+    host: "outlook.office365.com",
+    port: 993,
+    tls: true,
+    authTimeout: 3000,
+    tlsOptions: { rejectUnauthorized: false }
   }
-  
-});
-/*
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'bugvoid404@gmail.com',
-    pass: pass
-  },
-  tls: { rejectUnauthorized: false }
-});*/
-
-// setup e-mail data, even with unicode symbols
-var mailOptions = {
-  from: user, // sender address (who sends)
-  to: 'bugvoid404@gmail.com ,' + user, // list of receivers (who receives)
-  subject: 'Hello ', // Subject line
-  text: 'Hello world ', // plaintext body
-  
 };
 
-// send mail with defined transport object
-transporter.sendMail(mailOptions, function (error, info) {
-  if (error) {
-    return console.log(error);
-  }
+imaps.connect(config).then(function(connection) {
+  connection
+    .openBox("Aspect")
+    .then(function() {
+      var searchCriteria = ["ALL"];
+      var fetchOptions = {
+        bodies: ["HEADER.FIELDS (FROM TO SUBJECT DATE)"],
+        struct: true
+      };
 
-  console.log('Message sent: ' + info.response);
+      // retrieve only the headers of the messages
+      return connection.search(searchCriteria, fetchOptions);
+    })
+    .then(function(messages) {
+      var attachments = [];
+
+      messages.forEach(function(message) {
+        var parts = imaps.getParts(message.attributes.struct);
+        attachments = attachments.concat(
+          parts
+            .filter(function(part) {
+              return (
+                part.disposition &&
+                part.disposition.type.toUpperCase() === "ATTACHMENT"
+              );
+            })
+            .map(function(part) {
+              // retrieve the attachments only of the messages with attachments
+              return connection
+                .getPartData(message, part)
+                .then(function(partData) {
+                  return {
+                    filename: part.disposition.params.filename,
+                    data: partData
+                  };
+                });
+            })
+        );
+      });
+
+      return Promise.all(attachments);
+    })
+    .then(function(attachments) {
+      console.log(attachments);
+
+      // =>
+      //    [ { filename: 'cats.jpg', data: Buffer() },
+      //      { filename: 'pay-stub.pdf', data: Buffer() } ]
+    });
 });
-
-
-/*
-exports.sendMail = function(req,res){
-}*/
-
-
-
-
-
-
