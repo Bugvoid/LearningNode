@@ -1,9 +1,13 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
+mongoose.set("useFindAndModify", false);
 const requireDir = require("require-dir");
 
 //Init APP
 const app = express();
+app.use(express.json());
+app.use(cors());
 
 //Connect database
 //mongodb+srv://root:root@cluster0-huzkm.mongodb.net/pongo?retryWrites=true

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate");
 
 const TimeSchema = new mongoose.Schema({
   employee: {
@@ -31,5 +32,7 @@ const TimeSchema = new mongoose.Schema({
     type: String
   }
 });
+
+TimeSchema.plugin(mongoosePaginate);
 
 mongoose.model("Timecard", TimeSchema);
