@@ -5,23 +5,24 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "~4.12.3",
-    "morgan": "~1.5.2",
-    "cookie-parser": "latest",
-    "express-session": "latest",
-    "mongoose": "latest",
-    "ejs": "latest",
-    "body-parser": "latest",
-    "passport": "~0.2.1",
-    "passport-local": "~1.0.0",
-    "connect-flash": "~0.1.1",
-    "bcrypt": "~0.8.1",
-    "passport-facebook": "~2.0.0"
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.7.12",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.1",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-local": "^1.0.0"
   }
 }
